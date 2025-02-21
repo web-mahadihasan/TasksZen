@@ -1,21 +1,20 @@
 import { createBrowserRouter } from "react-router";
 import Layouts from "../layouts/Layouts";
 import TaskPage from "../pages/TaskPage/TaskPage";
-import Login from "../pages/Auth/Login";
 import HomePage from "../pages/Home/Home";
 import HomeLayouts from "../layouts/HomeLayouts";
-import LoginPage2 from "../pages/Auth/LoginPage2";
+import LoginPage from "../pages/Auth/LoginPage";
 import Register from "../pages/Auth/Register";
-import Register2 from "../pages/Auth/Register2";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
   {
     path: "/dashboard",
-    element: <Layouts />,
+    element: <PrivateRoute><Layouts /></PrivateRoute>,
     children: [
       {
         path: "/dashboard",
-        element: <TaskPage />,
+        element: <PrivateRoute><TaskPage /></PrivateRoute>,
       },
     ],
   },
@@ -29,11 +28,11 @@ const Router = createBrowserRouter([
         },
         {
             path: "/auth/login",
-            element: <LoginPage2 />,
+            element: <LoginPage />,
         },
         {
             path: "/auth/register",
-            element: <Register2 />,
+            element: <Register />,
         },
     ]
   }

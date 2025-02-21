@@ -8,8 +8,15 @@ import {
 	PeopleOutline,
 	PieChartOutline,
 } from "react-ionicons";
+import useAuth from "../../hooks/useAuth";
 
 const Sidebar = () => {
+	const {user, logOutUser} = useAuth()
+
+	const handleLogout = async () => {
+		await logOutUser()
+		alert("user Logout")
+	}
 	const navLinks = [
 		{
 			title: "Home",
@@ -109,7 +116,7 @@ const Sidebar = () => {
 						</div>
 					);
 				})}
-				<div className="flex absolute bottom-4 items-center md:justify-start justify-center gap-2 md:w-[90%] w-[70%] rounded-lg hover:bg-orange-300 px-2 py-3 cursor-pointer bg-gray-200">
+				<div onClick={handleLogout} className="flex absolute bottom-4 items-center md:justify-start justify-center gap-2 md:w-[90%] w-[70%] rounded-lg hover:bg-orange-300 px-2 py-3 cursor-pointer bg-gray-200">
 					<LogOutOutline />
 					<span className="font-medium text-[15px] md:block hidden">Log Out</span>
 				</div>

@@ -9,15 +9,16 @@ import {
 } from '@tanstack/react-query'
 import { TaskProvider } from './contexts/TaskContext.jsx'
 import "./App.css"
+import AuthProvider from './contexts/AuthContext.jsx'
 // Create a client
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
-
+  <AuthProvider>
     <QueryClientProvider client={queryClient}>
       <TaskProvider>
         <RouterProvider router={Router}/>
       </TaskProvider>
     </QueryClientProvider>
-
+  </AuthProvider>
 )

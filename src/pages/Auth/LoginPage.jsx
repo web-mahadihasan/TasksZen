@@ -10,7 +10,7 @@ import bgImage from "../../assets/authentication.png"
 import GoogleLogin from '../../components/GoogleLogin';
 import { Checkbox } from "@/components/ui/checkbox"
 
-function LoginPage2() {
+function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -122,4 +122,4 @@ function LoginPage2() {
   );
 }
 
-export default LoginPage2;
+export default LoginPage;
