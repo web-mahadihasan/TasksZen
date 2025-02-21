@@ -6,16 +6,19 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, UserCircle2, KeyRound, AtSign, ImageIcon, Chrome } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Link } from 'react-router';
+import bgImage from "../../assets/authentication.png"
+import GoogleLogin from '../../components/GoogleLogin';
+import { Checkbox } from "@/components/ui/checkbox"
 
 function LoginPage2() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-400/90 via-indigo-500/90 to-purple-500/90 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-400/90 via-indigo-500/90 to-purple-500/90 flex items-center justify-center p-4" style={{backgroundImage: `url(${bgImage})`}}>
       <div className="w-full max-w-md">
-        <div className="flex justify-center mb-8">
-          <div className="p-4 rounded-full bg-white/10">
-            <UserCircle2 className="w-12 h-12 text-white" />
+        <div className="flex justify-center mb-5">
+        <div className="p-4 rounded-full bg-main/10 shadow-lg">
+            <UserCircle2 className="w-12 h-12 text-main" />
           </div>
         </div>
         
@@ -38,7 +41,7 @@ function LoginPage2() {
                   id="email" 
                   type="email" 
                   placeholder="you@example.com" 
-                  className="pl-10 h-12 bg-white border-gray-200 focus:border-blue-500 transition-all duration-300 font-medium text-gray-700"
+                  className="pl-10 h-12 bg-white border-gray-200 focus:border-main outline-none focus:outline-none transition-all duration-300 font-medium text-gray-700"
                 />
               </div>
             </div>
@@ -50,7 +53,7 @@ function LoginPage2() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  className="pl-10 pr-10 h-12 bg-white border-gray-200 focus:border-blue-500 transition-all duration-300 font-medium text-gray-700"
+                  className="pl-10 pr-10 h-12 bg-white border-gray-200 focus:border-main transition-all duration-300 font-medium text-gray-700 "
                   placeholder="Enter your password"
                 />
                 <button
@@ -68,17 +71,26 @@ function LoginPage2() {
             </div>
 
 
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="terms" />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-500"
+                  >
+                    Remember me
+                  </label>
+                </div>
                 <Button 
                   variant="link" 
-                  className="text-blue-600 hover:text-blue-700 p-0"
+                  className="text-gray-500 duration-300 hover:text-blue-700 p-0"
                 >
                   Forgot password?
                 </Button>
               </div>
      
             <Button 
-              className="w-full h-12 text-lg font-medium bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
+              className="w-full h-12 text-lg font-medium bg-main hover:bg-main-dark text-white transition-all duration-300"
             >
               Sign in
             </Button>
@@ -92,22 +104,16 @@ function LoginPage2() {
                   </span>
                 </div>
 
-                <Button 
-                  variant="outline" 
-                  className="w-full h-12 border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 transition-all duration-300 text-gray-600"
-                >
-                  <Chrome className="mr-2 h-5 w-5" />
-                  Sign in with Google
-                </Button>
+                <GoogleLogin title={"Login with google"}/>
               </>
             
           </CardContent>
           <CardFooter className="flex flex-col items-center pb-8 pt-4">
             <Button
               variant="link"
-              className="text-blue-600 hover:text-blue-700 hover:no-underline"
+              className="text-main hover:text-main-dark group hover:no-underline"
             >
-              Don't have an account? <Link to={"/auth/register"} className='hover:underline duration-500 transition-all ease-in-out'>Sign up</Link>
+              Don't have an account? <Link to={"/auth/register"} className='group-hover:underline duration-500 group-hover:text-blue-500 transition-all ease-in-out'>Sign up</Link>
             </Button>
           </CardFooter>
         </Card>
