@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Plus, Loader2 } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
+import useAuth from "../hooks/useAuth"
 
 export default function AddTaskForm({ columnId }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,6 +16,7 @@ export default function AddTaskForm({ columnId }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { addTask } = useTaskContext()
   const { toast } = useToast()
+  const {user} = useAuth()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -25,6 +27,8 @@ export default function AddTaskForm({ columnId }) {
       title,
       description,
       category: columnId,
+      name: user?.displayName,
+      email: user?.email
     })
     setIsSubmitting(false)
     setIsOpen(false)

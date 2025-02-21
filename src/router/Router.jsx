@@ -9,16 +9,6 @@ import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
   {
-    path: "/dashboard",
-    element: <PrivateRoute><Layouts /></PrivateRoute>,
-    children: [
-      {
-        path: "/dashboard",
-        element: <PrivateRoute><TaskPage /></PrivateRoute>,
-      },
-    ],
-  },
-  {
     path: "/",
     element: <HomeLayouts/>,
     children: [
@@ -35,7 +25,17 @@ const Router = createBrowserRouter([
             element: <Register />,
         },
     ]
-  }
+  },
+  {
+    path: "/dashboard",
+    element: <PrivateRoute><Layouts /></PrivateRoute>,
+    children: [
+      {
+        path: "/dashboard",
+        element: <PrivateRoute><TaskPage /></PrivateRoute>,
+      },
+    ],
+  },
 ]);
 
 export default Router;

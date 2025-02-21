@@ -6,8 +6,10 @@ import {
 	SettingsOutline,
 	ShareSocialOutline,
 } from "react-ionicons";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
+	const {user} = useAuth()
 	return (
 		<div className="md:w-[calc(100%-230px)] w-[calc(100%-60px)] fixed flex items-center justify-between pl-2 pr-6 h-[70px] top-0 md:left-[230px] left-[60px] border-b border-slate-300 bg-[#fff]">
 			<div className="flex items-center gap-3 cursor-pointer">
@@ -16,11 +18,11 @@ const Navbar = () => {
 					width={"28px"}
 					height={"28px"}
 				/>
-				<span className="text-orange-400 font-semibold md:text-lg text-sm whitespace-nowrap">
-					Board Name
+				<span className="text-main font-semibold md:text-lg text-sm whitespace-nowrap">
+					{user?.displayName}
 				</span>
 				<ChevronDown
-					color="#fb923c"
+					color="#22b573"
 					width={"16px"}
 					height={"16px"}
 				/>

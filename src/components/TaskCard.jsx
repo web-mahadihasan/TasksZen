@@ -61,7 +61,7 @@ export default function TaskCard({ task }) {
             )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
-              <time>{format(new Date(task.timestamp), "MMM d, yyyy")}</time>
+              <time>{format(new Date(task.createDate), "MMM d, yyyy")}</time>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, UserCircle2, KeyRound, AtSign, ImageIcon, Chrome } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -13,6 +13,11 @@ import axios from 'axios';
 import bgImage from "../../assets/authentication.png"
 import GoogleLogin from '../../components/GoogleLogin';
 import { Checkbox } from "@/components/ui/checkbox"
+import useAuth from '../../hooks/useAuth';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import toast from 'react-hot-toast';
+import { ring2 } from 'ldrs'
+import Swal from 'sweetalert2';
 
 const yupSchema = yup.object().shape({
   name: yup.string().min(3, "Name must be at least 3 characters").max(20, "Name cannot be more than 20 characters").required("Name is required"),
@@ -28,13 +33,16 @@ const yupSchema = yup.object().shape({
     .mixed().required("Image is required")
 });
 
-
-
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [fileName, setFileName] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
+  const {registerNewUser, setUser, updataUser} = useAuth()
+  const axiosPublic = useAxiosPublic()
+  const navigate = useNavigate()
+  ring2.register()
+
   const {
     register,
     handleSubmit,
@@ -43,25 +51,65 @@ function Register() {
   const cloudinaryApi = import.meta.env.VITE_CLOUDINARY_API
 
   // Handle image upload 
-  const handleImageUpload = (e) => {
-    setFileName(e.target.files[0])
-  }
-  
-  const onSubmit =async (data) => {
+  const handleImageUpload = async (e) => {
+    const fileName = e.target.files[0]
     const formData = new FormData()
     formData.append("file", fileName)
     formData.append("upload_preset", "fitVerse")
     setLoading(true)
     try {
-      const {data: imageData} = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryApi}/image/upload`,
+      const {data} = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryApi}/image/upload`,
         formData
       )
-      setImage(imageData?.url)
+      setImage(data?.url)
       setLoading(false)
-      console.log(image)
-      console.log(data)
     } catch (error) {
       console.log(error)
+    }
+  }
+  
+  const onSubmit =async (data) => {
+    const {name, email, password} = data || {}
+    const updateData = {
+        displayName: name,
+        photoURL: image
+    }
+    const toastId = toast.loading('Registerd new user...');
+    try {
+      
+      const result = await registerNewUser(email, password)
+      setUser(result.user)
+      const update = await updataUser(updateData)
+      const userInfo = {
+        name,
+        email,
+        photoUrl: image,
+        createAt: result?.user?.metadata?.creationTime
+      }
+      const {data} = await axiosPublic.post("/users", {userInfo})
+      if(data.user){
+        toast.success(`Welcome ${result?.user?.displayName}!`, {
+          id: toastId, 
+        });
+        navigate("/dashboard")
+      }
+      setLoading(false)
+    } catch (error) {
+      console.log(err)
+      if(err.code == "auth/email-already-in-use"){
+        Swal.fire({
+          title: "Failed!",
+          text: "Email already used! Please login",
+          icon: "error"
+        });
+      }else{
+        Swal.fire({
+          title: "Failed!",
+          text: "New user registration failed",
+          icon: "error"
+        });
+      }
+      toast.dismiss(toastId);
       setLoading(false)
     }
   }
@@ -159,9 +207,19 @@ function Register() {
                   </label>
               </div>
               <Button 
-                className="w-full h-12 text-lg font-medium bg-main hover:bg-main-dark text-white transition-all duration-300" type="submit"
+                className="w-full h-12 text-lg font-medium bg-main hover:bg-main-dark text-white transition-all duration-300" disabled={loading} type="submit"
               >
-                  Create account
+                  {
+                    loading? <><l-ring-2
+                      size="22"
+                      stroke="3"
+                      stroke-length="0.25"
+                      bg-opacity="0.1"
+                      speed="0.8" 
+                      color="black" 
+                    ></l-ring-2>
+                    Create account</>: "Create account"
+                  }
               </Button>
               </form>
 

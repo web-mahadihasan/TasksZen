@@ -1,11 +1,13 @@
 import { createContext, useContext, useCallback } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
+import useAxiosSecured from "../hooks/useAxiosSecured"
+import useAuth from "../hooks/useAuth"
 
 const TaskContext = createContext(undefined)
 
 export const useTaskContext = () => {
   const context = useContext(TaskContext)
+
   if (!context) {
     throw new Error("useTaskContext must be used within a TaskProvider")
   }
@@ -14,31 +16,33 @@ export const useTaskContext = () => {
 
 export const TaskProvider = ({ children }) => {
   const queryClient = useQueryClient()
+  const axiosSecured = useAxiosSecured()
+  const {user} = useAuth()
 
   const fetchTasks = async () => {
-    const response = await axios.get("http://localhost:5000/tasks")
+    const response = await axiosSecured.get(`/tasks/${user?.email}`)
     return response.data
   }
 
-  // ✅ Corrected `useQuery` syntax for React Query v5
+  // set data for query
   const { data: tasks = [], isLoading, isError } = useQuery({
     queryKey: ["tasks"],
     queryFn: fetchTasks,
   })
 
-  // ✅ Corrected `useMutation` syntax for React Query v5
+  // data mutation
   const addTaskMutation = useMutation({
-    mutationFn: (newTask) => axios.post("http://localhost:5000/tasks", newTask),
+    mutationFn: (newTask) => axiosSecured.post("/tasks", newTask),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   })
 
   const updateTaskMutation = useMutation({
-    mutationFn: (task) => axios.put(`http://localhost:5000/tasks/${task._id}`, task),
+    mutationFn: (task) => axiosSecured.put(`/tasks/${task._id}`, task),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   })
 
   const deleteTaskMutation = useMutation({
-    mutationFn: (taskId) => axios.delete(`http://localhost:5000/tasks/${taskId}`),
+    mutationFn: (taskId) => axiosSecured.delete(`/tasks/${taskId}`),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   })
 

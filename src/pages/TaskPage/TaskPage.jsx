@@ -11,11 +11,11 @@ export default function TaskPage() {
   const navigate = useNavigate();
   const { tasks, isLoading, isError, moveTask } = useTaskContext();
   const { toast } = useToast();
-
+ 
   const columns = {
-    "To-Do": tasks.filter((task) => task.category === "To-Do"),
-    "In Progress": tasks.filter((task) => task.category === "In Progress"),
-    Done: tasks.filter((task) => task.category === "Done"),
+    "To-Do": tasks?.filter((task) => task.category === "To-Do"),
+    "In Progress": tasks?.filter((task) => task.category === "In Progress"),
+    Done: tasks?.filter((task) => task.category === "Done"),
   };
 
   const onDragEnd = (result) => {
@@ -50,22 +50,22 @@ export default function TaskPage() {
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <Card>
+      <div>
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-          <CardTitle className="text-2xl font-bold">
-            Task Flow Dashboard
+          <CardTitle className="text-2xl font-bold my-4">
+            TasksZen Dashboard
           </CardTitle>
-          <Button onClick={handleLogout}>
+          {/* <Button onClick={handleLogout}>
             Logout
             <LogOut className="ml-2 h-4 w-4" />
-          </Button>
+          </Button> */}
         </CardHeader>
         <CardContent>
           <DragDropContext onDragEnd={onDragEnd}>
             <TaskBoard columns={columns} />
           </DragDropContext>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -14,11 +14,9 @@ import AuthProvider from './contexts/AuthContext.jsx'
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
-  <AuthProvider>
-    <QueryClientProvider client={queryClient}>
-      <TaskProvider>
-        <RouterProvider router={Router}/>
-      </TaskProvider>
-    </QueryClientProvider>
-  </AuthProvider>
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <RouterProvider router={Router} />
+    </AuthProvider>
+  </QueryClientProvider>
 )

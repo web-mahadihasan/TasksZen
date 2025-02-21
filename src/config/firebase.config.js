@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAtuFOOIEZ1uygzW0aQmC-AHDGMkfWm_Bk",
-  authDomain: "flavorscape-bd.firebaseapp.com",
-  projectId: "flavorscape-bd",
-  storageBucket: "flavorscape-bd.firebasestorage.app",
-  messagingSenderId: "875051873421",
-  appId: "1:875051873421:web:f85c7fe02853b5760e1ec4"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase

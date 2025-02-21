@@ -2,23 +2,33 @@ import { Chrome } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAuth from "../hooks/useAuth";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const GoogleLogin = ({title}) => {
   const {setUser, loginWithGoogle, user} = useAuth()
   const axiosPublic = useAxiosPublic()
+  const navigate = useNavigate()
+
   const handleGoogleLogin = async () => {
+    const toastId = toast.loading('Trying Loged in...');
     try {
       const result = await loginWithGoogle()
+      console.log(result)
       const userInfo = {
-        name: user?.displayName,
-        email: user?.email,
-        photoUrl: user?.photoURL,
-        createAt: user?.metadata?.creationTime
+        name: result?.user?.displayName,
+        email: result?.user?.email,
+        photoUrl: result?.user?.photoURL,
+        createAt: result?.user?.metadata?.creationTime
       }
       const {data} = await axiosPublic.post("/users", {userInfo})
-      
+      setUser(result.user)
+      toast.success(`Welcome ${result?.user?.displayName}!`, {
+        id: toastId, 
+      });
+      navigate("/dashboard")
     } catch (error) {
-      
+      console.log(error)
     }
   }
     return (

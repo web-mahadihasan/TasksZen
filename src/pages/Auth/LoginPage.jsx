@@ -5,14 +5,45 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, UserCircle2, KeyRound, AtSign, ImageIcon, Chrome } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import bgImage from "../../assets/authentication.png"
 import GoogleLogin from '../../components/GoogleLogin';
 import { Checkbox } from "@/components/ui/checkbox"
+import useAuth from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState({})
+  const {setUser, loginWithEmail} = useAuth()
+  const navigate = useNavigate()
 
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    const form = e.target
+    const formData = new FormData(form)
+    const email = formData.get("email")
+    const password = formData.get("password")
+    const toastId = toast.loading('Trying user login...');
+
+    try {
+      const result = await loginWithEmail(email, password)
+      if(result.user){
+        setUser(result?.user)
+        toast.success(`Welcome ${result?.user?.displayName}!`, {
+          id: toastId, 
+        });
+        navigate("/dashboard")
+      }
+    } catch (err) {
+      toast.error(`Failed to Login! Please try again`, {
+        id: toastId, 
+      });
+      if(err.code  === "auth/invalid-credential"){
+        setError((prev) => ({ ...prev, invalid: "Your email or password was invalid! Try again ..!!!" }));
+      }
+    }
+  }
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-400/90 via-indigo-500/90 to-purple-500/90 flex items-center justify-center p-4" style={{backgroundImage: `url(${bgImage})`}}>
       <div className="w-full max-w-md">
@@ -33,12 +64,17 @@ function LoginPage() {
           </CardHeader>
           <CardContent className="space-y-6">
 
+            <form onSubmit={handleLogin}>
+              {
+                error.invalid && <p className='text-red-600 text-sm my-2'>{error.invalid}</p>
+              }
+              
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email address</Label>
               <div className="relative">
                 <AtSign className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 <Input 
-                  id="email" 
+                  id="email" name="email"
                   type="email" 
                   placeholder="you@example.com" 
                   className="pl-10 h-12 bg-white border-gray-200 focus:border-main outline-none focus:outline-none transition-all duration-300 font-medium text-gray-700"
@@ -51,7 +87,7 @@ function LoginPage() {
               <div className="relative">
                 <KeyRound className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 <Input
-                  id="password"
+                  id="password" name="password"
                   type={showPassword ? "text" : "password"}
                   className="pl-10 pr-10 h-12 bg-white border-gray-200 focus:border-main transition-all duration-300 font-medium text-gray-700 "
                   placeholder="Enter your password"
@@ -71,7 +107,7 @@ function LoginPage() {
             </div>
 
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between my-3">
                 <div className="flex items-center space-x-2">
                   <Checkbox id="terms" />
                   <label
@@ -89,11 +125,12 @@ function LoginPage() {
                 </Button>
               </div>
      
-            <Button 
+            <Button type="submit"
               className="w-full h-12 text-lg font-medium bg-main hover:bg-main-dark text-white transition-all duration-300"
             >
               Sign in
             </Button>
+            </form>
 
 
               <>
