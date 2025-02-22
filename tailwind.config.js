@@ -10,11 +10,11 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-			main: {
-				light: 'rgba(99,171,69,.6)',
-				DEFAULT: '#22b573',
-				dark: '#228b22'
-			  },
+  			main: {
+  				light: 'rgba(99,171,69,.6)',
+  				DEFAULT: '#22b573',
+  				dark: '#228b22'
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -54,6 +54,24 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		animation: {
+  			meteor: 'meteor 5s linear infinite'
+  		},
+  		keyframes: {
+  			meteor: {
+  				'0%': {
+  					transform: 'rotate(var(--angle)) translateX(0)',
+  					opacity: '1'
+  				},
+  				'70%': {
+  					opacity: '1'
+  				},
+  				'100%': {
+  					transform: 'rotate(var(--angle)) translateX(-500px)',
+  					opacity: '0'
+  				}
   			}
   		}
   	}
