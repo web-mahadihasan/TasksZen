@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
 export const axiosSecured = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://app-taskszen-server.vercel.app",
 });
 
 const useAxiosSecured = () => {
