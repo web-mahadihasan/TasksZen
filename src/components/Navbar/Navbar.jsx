@@ -8,16 +8,17 @@ import {
 	ShareSocialOutline,
 } from "react-ionicons";
 import useAuth from "../../hooks/useAuth";
-import {  Moon, Sun, } from "lucide-react"
+import { Moon, Sun, } from "lucide-react"
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch"
 import { useTaskContext } from "../../contexts/TaskContext";
+import { Link } from "react-router";
 
 const Navbar = () => {
 	const {user} = useAuth()
 	const [isDarkMode, setIsDarkMode] = React.useState(false)
 	const {search, setSearch} = useTaskContext()
-	console.log(search)
+	
 	React.useEffect(() => {
 	  if (isDarkMode) {
 		document.documentElement.classList.add("dark")
@@ -64,8 +65,9 @@ const Navbar = () => {
 					<ShareSocialOutline color={"#444"} />
 				</div>
 				
-				<div className="grid place-items-center bg-gray-100 rounded-full p-2 cursor-pointer">
-					<NotificationsOutline color={"#444"} />
+				<div className="grid place-items-center bg-gray-100 rounded-full cursor-pointer">
+					{/* <NotificationsOutline color={"#444"} /> */}
+					<Link to={"/dashboard/profile"}><img src={user?.photoURL} alt="" className="w-10 h-10 rounded-full ring-2 ring-offset-1 ring-main" /></Link>
 				</div>
 			</div>
 		</div>
