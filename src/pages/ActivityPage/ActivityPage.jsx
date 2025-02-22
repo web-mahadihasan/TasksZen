@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ActivityIcon } from "lucide-react"
-import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
 import useAxiosSecured from "../../hooks/useAxiosSecured"
 import useAuth from "../../hooks/useAuth"
+import LoadingPage from "../LoadingPage/LoadingPage"
 
 export default function ActivityPage() {
   const navigate = useNavigate()
@@ -21,7 +20,7 @@ export default function ActivityPage() {
     }
   })
 
-  if(isLoading) <p>Loading...</p>
+  if(isLoading) <div><LoadingPage/></div>
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-6">

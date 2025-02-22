@@ -81,7 +81,7 @@ export default function TaskCard({ task }) {
       <div className="p-4 space-y-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1">
-            <h3 className="font-medium text-lg line-clamp-2">
+            <h3 className="font-medium text-lg line-clamp-2 capitalize">
               {task.title} <Badge variant="outline" 
                className={`${
                 task?.priorityLevel === "High"
@@ -94,7 +94,17 @@ export default function TaskCard({ task }) {
                     : "border-emerald-500 text-emerald-500"
                   : "border-emerald-500 text-emerald-500"
               }`}
-              >{task?.priorityLevel}</Badge>
+              >{task?.priorityLevel}</Badge> 
+              <Badge variant="outline" 
+               className={`ml-2
+                ${
+                  task?.category === "To-Do"
+                    ? "border-blue-500 text-blue-500"
+                    : task?.category === "In Progress"
+                      ? "border-yellow-500 text-yellow-500"
+                      : "border-green-500 text-green-500"
+                }`}
+              >{task?.category}</Badge>
               </h3>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -111,7 +121,7 @@ export default function TaskCard({ task }) {
         </div>
 
         <p className="text-muted-foreground text-sm line-clamp-3">{task.description || "No description provided"}</p>
-
+        
         <div className="flex justify-end gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
