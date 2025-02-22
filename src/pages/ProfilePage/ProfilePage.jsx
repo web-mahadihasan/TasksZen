@@ -34,7 +34,7 @@ export default function Profile() {
             Joined on {new Date(user?.metadata?.creationTime).toLocaleDateString()}
           </div>
           <div className="flex justify-center">
-            <Button variant="outline" onClick={() => navigate("/activity")}>
+            <Button variant="outline" onClick={() => navigate("/dashboard/activity")}>
               View Activity
             </Button>
           </div>
