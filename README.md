@@ -6,6 +6,26 @@ TaskZen is a modern task management web application that allows users to organiz
 ## 🌐 Live Link
 [TaskZen - Live App](https://app-taskzen.vercel.app/)
 
+---
+
+## 📖 Table of Contents
+- [📝 Description](#-description)
+- [🌐 Live Link](#-live-link)
+- [📦 Dependencies](#-dependencies)
+- [🛠 Technologies Used](#-technologies-used)
+- [🚀 Installation Steps](#-installation-steps)
+  - [1️⃣ Clone the Repository](#1️⃣-clone-the-repository)
+  - [2️⃣ Install Dependencies](#2️⃣-install-dependencies)
+  - [3️⃣ Set Up Environment Variables](#3️⃣-set-up-environment-variables)
+  - [4️⃣ Run the Development Server](#4️⃣-run-the-development-server)
+  - [5️⃣ Open in Browser](#5️⃣-open-in-browser)
+- [📌 Features](#-features)
+- [🎯 Upcoming Enhancements](#-upcoming-enhancements)
+- [📜 License](#-license)
+
+---
+
+
 ## 📦 Dependencies
 The project uses the following dependencies for frontend development:
 
