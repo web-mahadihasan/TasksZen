@@ -3,3 +3,7 @@
 .font-inter{
   font-family: "Inter", serif;
 }
+.sidebar a.active{
+  background-color: #22b573;
+  color: #fff;
+}

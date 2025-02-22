@@ -6,6 +6,8 @@ import HomeLayouts from "../layouts/HomeLayouts";
 import LoginPage from "../pages/Auth/LoginPage";
 import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
+import Profile from "../pages/ProfilePage/ProfilePage";
+import ActivityPage from "../pages/ActivityPage/ActivityPage";
 
 const Router = createBrowserRouter([
   {
@@ -31,8 +33,16 @@ const Router = createBrowserRouter([
     element: <PrivateRoute><Layouts /></PrivateRoute>,
     children: [
       {
-        path: "/dashboard",
+        path: "/dashboard/boards",
         element: <PrivateRoute><TaskPage /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <PrivateRoute><Profile /></PrivateRoute>,
+      },
+      {
+        path: "/dashboard/activity",
+        element: <PrivateRoute><ActivityPage /></PrivateRoute>,
       },
     ],
   },

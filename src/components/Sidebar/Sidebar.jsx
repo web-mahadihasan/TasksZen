@@ -10,6 +10,7 @@ import {
 } from "react-ionicons";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import { NavLink } from "react-router";
 
 const Sidebar = () => {
 	const {user, logOutUser} = useAuth()
@@ -28,7 +29,8 @@ const Sidebar = () => {
 					height="22px"
 				/>
 			),
-			active: false,
+			to: "/dashboard",
+			end: true,
 		},
 		{
 			title: "Boards",
@@ -39,7 +41,7 @@ const Sidebar = () => {
 					height="22px"
 				/>
 			),
-			active: true,
+			to: "/dashboard/boards",
 		},
 		{
 			title: "Profile",
@@ -50,10 +52,10 @@ const Sidebar = () => {
 					height="22px"
 				/>
 			),
-			active: false,
+			to: "/dashboard/profile",
 		},
 		{
-			title: "Analytics",
+			title: "Activity Logs",
 			icon: (
 				<PieChartOutline
 					color="#555"
@@ -61,45 +63,12 @@ const Sidebar = () => {
 					height="22px"
 				/>
 			),
-			active: false,
-		},
-		{
-			title: "Workflows",
-			icon: (
-				<PeopleOutline
-					color="#555"
-					width="22px"
-					height="22px"
-				/>
-			),
-			active: false,
-		},
-		{
-			title: "Notifications",
-			icon: (
-				<NotificationsOutline
-					color="#555"
-					width="22px"
-					height="22px"
-				/>
-			),
-			active: false,
-		},
-		{
-			title: "Newsletter",
-			icon: (
-				<NewspaperOutline
-					color="#555"
-					width="22px"
-					height="22px"
-				/>
-			),
-			active: false,
-		},
+			to: "/dashboard/activity",
+		}
 	];
 	return (
 		<div className="fixed left-0 top-0 md:w-[230px] w-[60px] overflow-hidden h-full flex flex-col">
-			<div className="w-full flex items-center md:justify-start justify-center md:pl-5 gap-2 h-[70px] bg-[#fff]">
+			<div className="w-full flex items-center md:justify-start justify-center md:pl-5 gap-2 h-[70px] bg-[#fff] dark:bg-black">
 				<span className=" font-semibold text-2xl block">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" preserveAspectRatio="xMinYMin meet"
 					className="w-10 h-10 text-main dark:text-main fill-current">
@@ -114,23 +83,21 @@ const Sidebar = () => {
 					TasksZen
 				</span>
 			</div>
-			<div className="w-full h-[calc(100vh-70px)] border-r flex flex-col md:items-start items-center gap-2 border-slate-300 bg-[#fff] py-5 md:px-3 px-3 relative">
+			<div className="sidebar w-full h-[calc(100vh-70px)] border-r flex flex-col md:items-start items-center gap-2 border-slate-300 bg-[#fff] py-5 md:px-3 px-3 relative dark:bg-black">
 				{navLinks.map((link) => {
 					return (
-						<div
+						<NavLink to={link.to} end={link.to === "/dashboard"}
 							key={link.title}
-							className={`flex items-center gap-2 w-full rounded-lg hover:bg-orange-300 px-2 py-3 cursor-pointer ${
-								link.active ? "bg-orange-300" : "bg-transparent"
-							}`}
+							className={`flex items-center gap-2 w-full rounded-lg hover:bg-main px-2 py-3 cursor-pointer`}
 						>
 							{link.icon}
 							<span className="font-medium text-[15px] md:block hidden">{link.title}</span>
-						</div>
+						</NavLink>
 					);
 				})}
-				<div onClick={handleLogout} className="flex absolute bottom-4 items-center md:justify-start justify-center gap-2 md:w-[90%] w-[70%] rounded-lg hover:bg-orange-300 px-2 py-3 cursor-pointer bg-gray-200">
+				<div onClick={handleLogout} className="flex absolute bottom-4 items-center md:justify-start justify-center gap-2 md:w-[90%] w-[70%] rounded-lg hover:bg-main duration-300 group px-2 py-3 cursor-pointer bg-gray-200">
 					<LogOutOutline />
-					<span className="font-medium text-[15px] md:block hidden">Log Out</span>
+					<span className="font-medium text-[15px] md:block hidden dark:text-black group-hover:text-white">Log Out</span>
 				</div>
 			</div>
 		</div>
