@@ -82,7 +82,19 @@ export default function TaskCard({ task }) {
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1">
             <h3 className="font-medium text-lg line-clamp-2">
-              {task.title} <Badge variant="outline" className={`${task.priorityLevel === "High" && "border-red-500 text-red-500"} ${task.priorityLevel === "Medium" && "border-orange-500 text-orange-500"} ${task.priorityLevel === "Low" && "border-emerald-500 text-emerald-500"}`}>{task?.priorityLevel}</Badge>
+              {task.title} <Badge variant="outline" 
+               className={`${
+                task?.priorityLevel === "High"
+                  ? task?.category !== "Done"
+                    ? "border-red-500 text-red-500"
+                    : "border-emerald-500 text-emerald-500"
+                  : task?.priorityLevel === "Medium"
+                  ? task?.category !== "Done"
+                    ? "border-orange-500 text-orange-500"
+                    : "border-emerald-500 text-emerald-500"
+                  : "border-emerald-500 text-emerald-500"
+              }`}
+              >{task?.priorityLevel}</Badge>
               </h3>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">

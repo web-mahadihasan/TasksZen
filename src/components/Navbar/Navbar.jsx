@@ -1,10 +1,8 @@
 import * as React from "react"
 import {
 	ChevronDown,
-	NotificationsOutline,
 	PersonCircle,
 	SearchOutline,
-	SettingsOutline,
 	ShareSocialOutline,
 } from "react-ionicons";
 import useAuth from "../../hooks/useAuth";
@@ -66,7 +64,6 @@ const Navbar = () => {
 				</div>
 				
 				<div className="grid place-items-center bg-gray-100 rounded-full cursor-pointer">
-					{/* <NotificationsOutline color={"#444"} /> */}
 					<Link to={"/dashboard/profile"}><img src={user?.photoURL} alt="" className="w-10 h-10 rounded-full ring-2 ring-offset-1 ring-main" /></Link>
 				</div>
 			</div>
