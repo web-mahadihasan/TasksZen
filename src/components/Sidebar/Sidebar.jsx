@@ -21,18 +21,6 @@ const Sidebar = () => {
 	}
 	const navLinks = [
 		{
-			title: "Home",
-			icon: (
-				<HomeOutline
-					color="#555"
-					width="22px"
-					height="22px"
-				/>
-			),
-			to: "/dashboard",
-			end: true,
-		},
-		{
 			title: "Boards",
 			icon: (
 				<AppsOutline
@@ -41,7 +29,8 @@ const Sidebar = () => {
 					height="22px"
 				/>
 			),
-			to: "/dashboard/boards",
+			to: "/dashboard",
+			end: true,
 		},
 		{
 			title: "Profile",
