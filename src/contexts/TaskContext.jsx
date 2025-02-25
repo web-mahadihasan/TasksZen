@@ -49,6 +49,29 @@ export const TaskProvider = ({ children }) => {
     .then(res => res.data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   })
+  const reorderTasksMutation = useMutation( {
+    mutationFn: ({ tasks, category }) => axiosSecured.post("/tasks/reorder", { tasks, category, userEmail: user?.email }),
+      onSuccess: () => {
+        queryClient.setQueryData(["tasks"], data.data)
+      },
+  })
+  // const reorderTasksMutation = useMutation( {
+  //   mutationFn: ({ tasks, category }) => axiosSecured.post("/tasks/reorder", { tasks, category, userEmail: user?.email }),
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries(["tasks"])
+  //     },
+  // })
+  const moveTaskMutation = useMutation({
+    mutationFn: ({ taskId, newCategory }) =>
+      axiosSecured.put(`/tasks/${taskId}/move`, {
+        newCategory,
+        userEmail: user?.email,
+      }),
+      onSuccess: (data) => {
+        queryClient.setQueryData(["tasks"], data.data)
+      },
+  })
+
 
   const addTask = useCallback(
     async (task) => {
@@ -74,14 +97,27 @@ export const TaskProvider = ({ children }) => {
     [deleteTaskMutation]
   )
 
+  // const moveTask = useCallback(
+  //   (taskId, newCategory) => {
+  //     const task = tasks.find((t) => t._id === taskId)
+  //     if (task) {
+  //       updateTaskMutation.mutate({ ...task, category: newCategory })
+  //     }
+  //   },
+  //   [tasks, updateTaskMutation]
+  // )
   const moveTask = useCallback(
     (taskId, newCategory) => {
-      const task = tasks.find((t) => t._id === taskId)
-      if (task) {
-        updateTaskMutation.mutate({ ...task, category: newCategory })
-      }
+      return moveTaskMutation.mutateAsync({ taskId, newCategory })
     },
-    [tasks, updateTaskMutation]
+    [moveTaskMutation],
+  )
+  // Rerecord task 
+  const reorderTasks = useCallback(
+    (tasks, category) => {
+      reorderTasksMutation.mutateAsync({ tasks, category })
+    },
+    [reorderTasksMutation],
   )
 
   // Activity log user 
@@ -94,7 +130,7 @@ export const TaskProvider = ({ children }) => {
   }, [])
 
   return (
-    <TaskContext.Provider value={{setSearch, search, tasks, isLoading, isError, addTask, updateTask, deleteTask, moveTask, logActivity }}>
+    <TaskContext.Provider value={{setSearch, search, tasks, isLoading, isError, addTask, updateTask, deleteTask, moveTask, logActivity, reorderTasks }}>
       {children}
     </TaskContext.Provider>
   )

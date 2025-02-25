@@ -11,7 +11,7 @@ export default function Profile() {
   const {user} = useAuth()
 
   return (
-    <div className="min-h-[calc(100vh-100px)] bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-6 flex items-center justify-center">
+    <div className="min-h-[calc(100vh-100px)] bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-6 flex items-center justify-center z-10">
       <Card className="w-full max-w-2xl overflow-hidden">
         <CardHeader className="relative h-48 bg-gradient-to-r from-primary/20 to-secondary/20">
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">

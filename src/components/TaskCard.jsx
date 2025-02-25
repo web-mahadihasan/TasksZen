@@ -12,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Calendar } from "@/components/ui/calendar"
 import Swal from "sweetalert2"
 import { Badge } from "@/components/ui/badge"
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
 
 export default function TaskCard({ task }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -21,6 +23,14 @@ export default function TaskCard({ task }) {
   const { updateTask, deleteTask } = useTaskContext()
   const [editDate, setEditDate] = useState(new Date(task.createDate))
   const [editPriority, setEditPriority] = useState(task.priorityLevel)
+
+  const { attributes, listeners, setNodeRef, transform,isDragging, transition } = useSortable({ id: task._id, disabled: isOpen, })
+  
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
 
   const handleEdit = async () => {
     const result = await updateTask({
@@ -77,7 +87,7 @@ export default function TaskCard({ task }) {
   const daysDifference = differenceInDays(new Date(task.deadline), new Date);
   
   return (
-    <Card className="mb-4 group">
+    <Card ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-4 group">
       <div className="p-4 space-y-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1">
@@ -106,7 +116,7 @@ export default function TaskCard({ task }) {
                 }`}
               >{task?.category}</Badge>
               </h3>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
                 <time>{format(new Date(task.createDate), "MMM d, yyyy")}</time>
@@ -130,7 +140,7 @@ export default function TaskCard({ task }) {
                 Edit
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent onClick={(e) => e.stopPropagation()}>
               <DialogHeader>
                 <DialogTitle>Edit Task</DialogTitle>
               </DialogHeader>

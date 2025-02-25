@@ -6,15 +6,28 @@ import {
 } from "react-ionicons";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import { Moon, Sun, } from "lucide-react"
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import React from "react";
 
 const Sidebar = () => {
-	const {user, logOutUser} = useAuth()
+	const {user, logOutUser, openSidebar} = useAuth()
+	const [isDarkMode, setIsDarkMode] = React.useState(false)
 
 	const handleLogout = async () => {
 		await logOutUser()
 		toast.success("Successfully Logout")
 	}
+	
+	React.useEffect(() => {
+	  if (isDarkMode) {
+		document.documentElement.classList.add("dark")
+	  } else {
+		document.documentElement.classList.remove("dark")
+	  }
+	}, [isDarkMode])
 	const navLinks = [
 		{
 			title: "Boards",
@@ -52,7 +65,7 @@ const Sidebar = () => {
 		}
 	];
 	return (
-		<div className="fixed left-0 top-0 md:w-[230px] w-[60px] overflow-hidden h-full flex flex-col">
+		<div className={`lg:fixed lg:left-0 lg:top-0 md:w-[230px] w-[60px] overflow-hidden h-full flex flex-col z-50 bg-[#fff] dark:bg-black`}>
 			<div className="w-full flex items-center md:justify-start justify-center md:pl-5 gap-2 h-[70px] bg-[#fff] dark:bg-black">
 				<span className=" font-semibold text-2xl block">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" preserveAspectRatio="xMinYMin meet"
@@ -68,7 +81,7 @@ const Sidebar = () => {
 					TasksZen
 				</span>
 			</div>
-			<div className="sidebar w-full h-[calc(100vh-70px)] border-r flex flex-col md:items-start items-center gap-2 border-slate-300 bg-[#fff] py-5 md:px-3 px-3 relative dark:bg-black">
+			<div className="sidebar w-full h-[calc(100vh-70px)] border-r flex flex-col md:items-start items-center gap-2 border-slate-300 bg-white z-40 py-5 md:px-3 px-3 relative dark:bg-black">
 				{navLinks.map((link) => {
 					return (
 						<NavLink to={link.to} end={link.to === "/dashboard"}
@@ -80,11 +93,26 @@ const Sidebar = () => {
 						</NavLink>
 					);
 				})}
+
+				{/* For mobile device  */}
+				<div className="grid place-items-center bg-gray-100 rounded-full cursor-pointer w-9 h-9 md:hidden">
+					<Link to={"/dashboard/profile"}><img src={user?.photoURL} alt="" className="w-9 h-9 rounded-full ring-2 ring-offset-1 ring-main md:hidden" /></Link>
+				</div>
+				<div className="flex items-center space-x-2 md:hidden rotate-90 mt-10">
+					<Sun className="h-4 w-4" />
+					<Switch id="dark-mode" checked={isDarkMode} onCheckedChange={setIsDarkMode} />
+					<Moon className="h-4 w-4" />
+					<Label htmlFor="dark-mode" className="sr-only">
+						Toggle dark mode
+					</Label>
+				</div>
 				<div onClick={handleLogout} className="flex absolute bottom-4 items-center md:justify-start justify-center gap-2 md:w-[90%] w-[70%] rounded-lg hover:bg-main duration-300 group px-2 py-3 cursor-pointer bg-gray-200">
 					<LogOutOutline />
 					<span className="font-medium text-[15px] md:block hidden dark:text-black group-hover:text-white">Log Out</span>
 				</div>
 			</div>
+
+			
 		</div>
 	);
 };

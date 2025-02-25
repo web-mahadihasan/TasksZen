@@ -12,6 +12,7 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const axiosPublic = useAxiosPublic() 
+    const [openSidebar, setOpenSidebar] = useState(false)
 
     // Create user 
     const registerNewUser = (email, password) =>  {
@@ -75,7 +76,9 @@ const AuthProvider = ({children}) => {
         setUser,
         loading, 
         setLoading,
-        loginWithGoogle
+        loginWithGoogle,
+        setOpenSidebar,
+        openSidebar
     }
     return (
         <AuthContextProvider.Provider value={authInfo}>

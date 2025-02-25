@@ -8,6 +8,7 @@ import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
 import Profile from "../pages/ProfilePage/ProfilePage";
 import ActivityPage from "../pages/ActivityPage/ActivityPage";
+import MainTaskPage from "../pages/TaskPage/MainTaskPage";
 
 const Router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const Router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <PrivateRoute><TaskPage /></PrivateRoute>,
+        element: <PrivateRoute><MainTaskPage /></PrivateRoute>,
       },
       {
         path: "/dashboard/profile",
