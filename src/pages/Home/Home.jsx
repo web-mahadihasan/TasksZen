@@ -59,7 +59,7 @@ const HomePage = () => {
         ))}
       </motion.h1>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2 }}>
-        <Link to="/auth/login">
+        <Link to="/dashboard">
           <span className="bg-main hover:bg-main-dark text-white font-normal tracking-wide py-3 px-6 rounded-lg text-xl transition-colors duration-200">
             Get Started
           </span>
